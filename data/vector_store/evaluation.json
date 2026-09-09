@@ -1,0 +1,55 @@
+{
+  "score": 1.0,
+  "results": [
+    {
+      "question": "What makes a Python function easy to test?",
+      "retrieved_source": "python-foundations",
+      "correct": true
+    },
+    {
+      "question": "When should I use a set instead of a list?",
+      "retrieved_source": "python-foundations",
+      "correct": true
+    },
+    {
+      "question": "How does FastAPI validate request bodies?",
+      "retrieved_source": "fastapi-practical",
+      "correct": true
+    },
+    {
+      "question": "Why use application lifespan?",
+      "retrieved_source": "fastapi-practical",
+      "correct": true
+    },
+    {
+      "question": "What is the retrieval-augmented loop?",
+      "retrieved_source": "rag-blueprint",
+      "correct": true
+    },
+    {
+      "question": "How should chunks preserve citations?",
+      "retrieved_source": "rag-blueprint",
+      "correct": true
+    },
+    {
+      "question": "What does cosine similarity measure?",
+      "retrieved_source": "rag-blueprint",
+      "correct": true
+    },
+    {
+      "question": "Which metrics evaluate a grounded assistant?",
+      "retrieved_source": "evaluation-playbook",
+      "correct": true
+    },
+    {
+      "question": "What belongs in a project README?",
+      "retrieved_source": "git-project-delivery",
+      "correct": true
+    },
+    {
+      "question": "What is the best recipe for chocolate cake?",
+      "retrieved_source": "insufficient evidence",
+      "correct": true
+    }
+  ]
+}

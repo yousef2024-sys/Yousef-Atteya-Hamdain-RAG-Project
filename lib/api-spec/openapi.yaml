@@ -1,0 +1,193 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: StudyMate grounded retrieval API
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: rag
+    description: Retrieval-augmented question answering
+  - name: library
+    description: Source library and corpus insights
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /query:
+    post:
+      operationId: askStudyMate
+      tags: [rag]
+      summary: Ask a grounded study question
+      description: Retrieves relevant passages from the StudyMate learning library and returns a cited answer.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QueryInput"
+      responses:
+        "200":
+          description: Grounded answer with cited sources
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/QueryResponse"
+        "422":
+          description: Invalid question
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /library:
+    get:
+      operationId: listLibraryDocuments
+      tags: [library]
+      summary: List source documents
+      responses:
+        "200":
+          description: Documents currently loaded by the assistant
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LibraryDocument"
+  /stats:
+    get:
+      operationId: getLibraryStats
+      tags: [library]
+      summary: Get corpus and retrieval statistics
+      responses:
+        "200":
+          description: Corpus summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LibraryStats"
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    QueryInput:
+      type: object
+      properties:
+        question:
+          type: string
+          minLength: 3
+          maxLength: 1000
+        top_k:
+          type: integer
+          minimum: 1
+          maximum: 5
+          default: 3
+      required:
+        - question
+    Citation:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        section:
+          type: string
+        excerpt:
+          type: string
+        score:
+          type: number
+          format: float
+        document_type:
+          type: string
+      required: [id, title, section, excerpt, score, document_type]
+    QueryResponse:
+      type: object
+      properties:
+        answer:
+          type: string
+        sources:
+          type: array
+          items:
+            $ref: "#/components/schemas/Citation"
+        related_questions:
+          type: array
+          items:
+            type: string
+        retrieval:
+          $ref: "#/components/schemas/RetrievalMeta"
+      required: [answer, sources, related_questions, retrieval]
+    RetrievalMeta:
+      type: object
+      properties:
+        query:
+          type: string
+        chunks_considered:
+          type: integer
+        latency_ms:
+          type: integer
+        model:
+          type: string
+        grounded:
+          type: boolean
+      required: [query, chunks_considered, latency_ms, model, grounded]
+    LibraryDocument:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        category:
+          type: string
+        description:
+          type: string
+        chunks:
+          type: integer
+        color:
+          type: string
+      required: [id, title, category, description, chunks, color]
+    LibraryStats:
+      type: object
+      properties:
+        document_count:
+          type: integer
+        chunk_count:
+          type: integer
+        category_count:
+          type: integer
+        embedding_model:
+          type: string
+        llm_model:
+          type: string
+        last_indexed:
+          type: string
+        evaluation_score:
+          type: number
+          format: float
+      required: [document_count, chunk_count, category_count, embedding_model, llm_model, last_indexed, evaluation_score]
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required: [error]
+

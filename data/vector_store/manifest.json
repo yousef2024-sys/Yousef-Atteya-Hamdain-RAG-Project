@@ -1,0 +1,7 @@
+{
+  "index_type": "local-tfidf",
+  "embedding_model": "tfidf-local-v1",
+  "chunk_count": 18,
+  "document_count": 6,
+  "generated_by": "notebooks/rag_pipeline.ipynb"
+}
