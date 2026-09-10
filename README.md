@@ -98,5 +98,6 @@ lib/
 ```
 
 ## Environment and Git hygiene
-
+## 🎬 Demo Video
+You can watch the application demo video https://drive.google.com/file/d/1CW7czDwsj2vukt8xi-sCIcWzY-JEugeV/view?usp=sharing.
 Copy `.env.example` to `.env` only when adding local configuration. Never commit `.env`, model credentials, virtual environments, Python caches, logs, or large generated indexes. The sample corpus is intentionally small and safe to inspect; larger corpora should stay outside Git and be regenerated from the notebook.
